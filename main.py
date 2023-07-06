@@ -25,70 +25,7 @@ str2 = "However, the development team believed a change in drive format could en
 
 strT = str1 + str2
 
-# Task1
-# word = "Honda"
-# ind = 0
-# while True:
-#       ind = strT.find(word, ind+len(word))
-#       if ind == -1:
-#             break
-#       print("ind = ", ind)
-
-# Task2
-# strT = strT.lower()
-# word = "honda"
-# ind = 0
-# while True:
-#       ind = strT.find(word, ind+len(word))
-#       if ind == -1:
-#             break
-#       print("ind = ", ind)
-
-# Task3
-# strT2 = "Hello"
-# strT2 = list(strT2)
-# print(strT2)
-# strT2 = list(reversed(strT2))
-# print(strT2)
-
-# strT = "During the test drive. During the test drive."
-# arr_strT = strT.split('.')
-# arr_temp = []
-#
-# for strL in arr_strT:
-#       strL = strL.split(' ')
-#       strL = list(reversed(strL))
-#       strL = ' '.join(strL)
-#       # print(strL)
-#       arr_temp.append(strL)
-#
-# strT = '.'.join(arr_temp)
-# print(strT)
-
-# Task 4
-
-# arr_symbol = []
-# ind, num = 0, 0
-# for i in strT:
-#       if not i.isalnum():
-#             arr_symbol.append(i)
-#
-# arr_symbol = ''.join(arr_symbol)
-#
-# while ind < len(arr_symbol):
-#       if arr_symbol.count(arr_symbol[ind]) > 1:
-#             arr_symbol = arr_symbol.replace(arr_symbol[ind], '', 1)
-#             continue
-#       ind += 1
-# arr_symbol = list(arr_symbol)
-# print("Txt. punctuation: ", arr_symbol)
-# xTab = '\t'
-# for i in arr_symbol:
-#       num = strT.count(i)
-#       if num > 0:
-#             print("\'{}\' = {}{}p.c.".format(i, num, xTab if num > 9 else xTab+xTab))
-
-########################################################################################
+#======================================================================================================================#
 
 def clean_s() -> None:
     time.sleep(0)
@@ -100,9 +37,8 @@ def exit_menu():
         if not out_submenu:
             os.system('CLS')
             return True
-        else:
-            print("ERROR!")
-            continue
+        break
+    return out_submenu
 
 def print_menu(ind_pos, arr, name_f="", ind_menu: int=""):
     print("\nMenu:") if name_f == '' else None
@@ -141,31 +77,117 @@ def receive_pos(ind_pos=0):
 #======================MENU FUNCTION=============================#
 
 def find_wordUp(ind, menu, txt_in):
-    print("\n {}. {}:".format(ind + 1, menu[ind][0]))
-    str_txt = input("\t-> ")
+    title = ("\n {}. {}:".format(ind + 1, menu[ind][0]))
 
-    exit_menu()
+    while True:
+        print(title)
+        word = input("\tsearch Up word -> ")
+        word = word.capitalize()
+        ind, pos = 0, 0
+
+        while True:
+            ind = txt_in.find(word, ind+len(word))
+            if ind == -1:
+                break
+            pos += 1
+            print("\t{} ind = {}".format(pos, ind))
+
+        if not txt_in.count(word):
+            print(" \"{}\" is absent".format(word))
+
+        temp = exit_menu()
+        if type(temp) == bool and temp:
+            break
+        clean_s()
 
 def find_word(ind, menu, txt_in):
-      print("\n {}. {}:".format(ind + 1, menu[ind][0]))
-      exit_menu()
+    title = ("\n {}. {}:".format(ind + 1, menu[ind][0]))
+
+    while True:
+        print(title)
+        word = input(" search word -> ")
+
+        word = word.lower()
+        txt_in = txt_in.lower()
+        ind, pos = 0, 0
+
+        while True:
+            ind = txt_in.find(word, ind + len(word))
+            if ind == -1:
+                break
+            pos += 1
+            print("\t{} ind = {}".format(pos, ind))
+
+        if not txt_in.count(word):
+            print(" \"{}\" is absent".format(word))
+
+        temp = exit_menu()
+        if type(temp) == bool and temp:
+            break
+        clean_s()
 
 def reverse_word(ind, menu, txt_in):
       print("\n {}. {}:".format(ind + 1, menu[ind][0]))
-      exit_menu()
+
+      arr_strT = txt_in.split('.')
+      arr_temp = []
+
+      for strL in arr_strT:
+            strL = strL.split(' ')
+            strL = list(reversed(strL))
+            strL = ' '.join(strL)
+            arr_temp.append(strL)
+
+      txt_in = '.'.join(arr_temp)
+      print(txt_in)
+
+      while True:
+          temp = exit_menu()
+          if type(temp) == bool and temp:
+              break
+          print("\tERROR")
+      clean_s()
 
 def num_symbol(ind, menu, txt_in):
-      print("\n {}. {}:".format(ind + 1, menu[ind][0]))
-      exit_menu()
+    print("\n {}. {}:".format(ind + 1, menu[ind][0]))
+
+    arr_symbol = []
+    ind, num = 0, 0
+    for i in txt_in:
+        if not i.isalnum():
+            arr_symbol.append(i)
+
+    arr_symbol = ''.join(arr_symbol)
+
+    while ind < len(arr_symbol):
+        if arr_symbol.count(arr_symbol[ind]) > 1:
+            arr_symbol = arr_symbol.replace(arr_symbol[ind], '', 1)
+            continue
+        ind += 1
+
+    arr_symbol = list(arr_symbol)
+    print(" Txt. punctuation: ", arr_symbol)
+    xTab = '\t'
+    for i in arr_symbol:
+        num = txt_in.count(i)
+        if num > 0:
+            print("\t\'{}\' = {}{}p.c.".format(i, num, xTab if num > 9 else xTab + xTab))
+
+    while True:
+        temp = exit_menu()
+        if type(temp) == bool and temp:
+            break
+        print("\tERROR")
+    clean_s()
 
 def exit_txt(ind, menu, txt_in=None):
-      print("\n {}. {}:".format(ind + 1, menu[ind][0]))
-      return True
+    print("\n {}. {}:".format(ind + 1, menu[ind][0]))
+    return True
 
-#======================main=============================#
+#=============================MAIN=============================#
 
 ind_menu = 0
-strTxt: str = ''
+strTxt = strT
 
 menu_f = {
     0: ["Find word Up", find_wordUp],
