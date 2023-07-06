@@ -1,3 +1,6 @@
+import os
+import time
+
 str1 = "The Wako R&D Center in January, 1984 began the basic research on a new drive system, as a means of achieving a shift from Honda’s FF " \
        "(front-engine/front-wheel drive) vehicle type to another format. In those days, FF was the mainstream of Honda cars, and Honda models used " \
        "it to ensure superior interior comfort and accommodations."
@@ -21,6 +24,7 @@ str2 = "However, the development team believed a change in drive format could en
       "\"Honda’s development engineers finally found an outlet for the passions when in the fall of 1985 the creation of a new sportscar began in earnest."
 
 strT = str1 + str2
+
 # Task1
 # word = "Honda"
 # ind = 0
@@ -63,23 +67,121 @@ strT = str1 + str2
 
 # Task 4
 
-arr_symbol = []
-ind, num = 0, 0
-for i in strT:
-      if not i.isalnum():
-            arr_symbol.append(i)
+# arr_symbol = []
+# ind, num = 0, 0
+# for i in strT:
+#       if not i.isalnum():
+#             arr_symbol.append(i)
+#
+# arr_symbol = ''.join(arr_symbol)
+#
+# while ind < len(arr_symbol):
+#       if arr_symbol.count(arr_symbol[ind]) > 1:
+#             arr_symbol = arr_symbol.replace(arr_symbol[ind], '', 1)
+#             continue
+#       ind += 1
+# arr_symbol = list(arr_symbol)
+# print("Txt. punctuation: ", arr_symbol)
+# xTab = '\t'
+# for i in arr_symbol:
+#       num = strT.count(i)
+#       if num > 0:
+#             print("\'{}\' = {}{}p.c.".format(i, num, xTab if num > 9 else xTab+xTab))
 
-arr_symbol = ''.join(arr_symbol)
+########################################################################################
 
-while ind < len(arr_symbol):
-      if arr_symbol.count(arr_symbol[ind]) > 1:
-            arr_symbol = arr_symbol.replace(arr_symbol[ind], '', 1)
+def clean_s() -> None:
+    time.sleep(0)
+    os.system('CLS')
+
+def exit_menu():
+    while True:
+        out_submenu = input("\texit -> ")
+        if not out_submenu:
+            os.system('CLS')
+            return True
+        else:
+            print("ERROR!")
             continue
-      ind += 1
-arr_symbol = list(arr_symbol)
-print("Txt. punctuation: ", arr_symbol)
-xTab = '\t'
-for i in arr_symbol:
-      num = strT.count(i)
-      if num > 0:
-            print("\'{}\' = {}{}p.c.".format(i, num, xTab if num > 9 else xTab+xTab))
+
+def print_menu(ind_pos, arr, name_f="", ind_menu: int=""):
+    print("\nMenu:") if name_f == '' else None
+    for i in range(len(arr)):
+        if i == ind_pos:
+            print("-> {}{} {}".format((str(ind_menu + 1) + '.') if name_f == "report" else '', str(i+1) + '.', arr[i][0]))
+            continue
+        print("   {}{} {}".format((str(ind_menu + 1) + '.') if name_f == "report" else '', str(i+1) + '.', arr[i][0]))
+
+def receive_pos(ind_pos=0):
+    min_ind, max_ind = 0, 4
+
+    while True:
+        direct = input(" ")
+
+        # increment & decrement
+        if not direct:
+            return ind_pos, direct
+        elif direct == 'W' or direct == 'w':
+            ind_pos += 1
+        elif direct == 'S' or direct == 's':
+            ind_pos -= 1
+        else:
+            print("ERROR!")
+            print(" \"w\" - Down, \"s\" - Up: ->", end='')
+            continue
+
+        # check position
+        if ind_pos < min_ind:
+            ind_pos = max_ind
+        elif ind_pos > max_ind:
+            ind_pos = min_ind
+
+        return ind_pos, direct
+
+#======================MENU FUNCTION=============================#
+
+def find_wordUp(ind, menu, txt_in):
+    print("\n {}. {}:".format(ind + 1, menu[ind][0]))
+    str_txt = input("\t-> ")
+
+    exit_menu()
+
+def find_word(ind, menu, txt_in):
+      print("\n {}. {}:".format(ind + 1, menu[ind][0]))
+      exit_menu()
+
+def reverse_word(ind, menu, txt_in):
+      print("\n {}. {}:".format(ind + 1, menu[ind][0]))
+      exit_menu()
+
+def num_symbol(ind, menu, txt_in):
+      print("\n {}. {}:".format(ind + 1, menu[ind][0]))
+      exit_menu()
+
+def exit_txt(ind, menu, txt_in=None):
+      print("\n {}. {}:".format(ind + 1, menu[ind][0]))
+      return True
+
+#======================main=============================#
+
+ind_menu = 0
+strTxt: str = ''
+
+menu_f = {
+    0: ["Find word Up", find_wordUp],
+    1: ["Find word", find_word],
+    2: ["Reverse word", reverse_word],
+    3: ["Punctuation", num_symbol],
+    4: ["Exit", exit_txt]
+}
+
+while True:
+    print_menu(ind_menu, menu_f)
+    print(" \"w\" - Down, \"s\" - Up: ->", end='')
+    ind_menu, operation = receive_pos(ind_menu)
+    clean_s()
+
+    if not operation:
+        tempValue = menu_f[ind_menu][1](ind_menu, menu_f, strTxt)
+        if type(tempValue) == bool and tempValue:
+            break
