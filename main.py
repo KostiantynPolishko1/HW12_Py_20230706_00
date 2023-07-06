@@ -1,5 +1,8 @@
+str1 = "The Wako R&D Center in January, 1984 began the basic research on a new drive system, as a means of achieving a shift from Honda’s FF " \
+       "(front-engine/front-wheel drive) vehicle type to another format. In those days, FF was the mainstream of Honda cars, and Honda models used " \
+       "it to ensure superior interior comfort and accommodations."
 
-strT = "However, the development team believed a change in drive format could enhance the flexibility of frame design and packaging. " \
+str2 = "However, the development team believed a change in drive format could enhance the flexibility of frame design and packaging. " \
       "Therefore, the focus of research was to be to an underfloor, midship-engine rear-wheel drive (UMR) format. " \
       "This could combine higher packaging efficiency along with the sporting characteristics with which rear drive was associated." \
       "During the test drive, the team members were amazed by the unique handling of the car, which differed greatly from the original FF specification. " \
@@ -17,6 +20,7 @@ strT = "However, the development team believed a change in drive format could en
       "\"They needed a car that would become the new face of Honda. Plus, we’d been contacted several times by those who were planning the Acura Division at American Honda concerning similar requests." \
       "\"Honda’s development engineers finally found an outlet for the passions when in the fall of 1985 the creation of a new sportscar began in earnest."
 
+strT = str1 + str2
 # Task1
 # word = "Honda"
 # ind = 0
@@ -57,6 +61,25 @@ strT = "However, the development team believed a change in drive format could en
 # strT = '.'.join(arr_temp)
 # print(strT)
 
-symbol = " ,:;.!?&-\'\"\t"
-symbol = list(symbol)
-print(symbol)
+# Task 4
+
+arr_symbol = []
+ind, num = 0, 0
+for i in strT:
+      if not i.isalnum():
+            arr_symbol.append(i)
+
+arr_symbol = ''.join(arr_symbol)
+
+while ind < len(arr_symbol):
+      if arr_symbol.count(arr_symbol[ind]) > 1:
+            arr_symbol = arr_symbol.replace(arr_symbol[ind], '', 1)
+            continue
+      ind += 1
+arr_symbol = list(arr_symbol)
+print("Txt. punctuation: ", arr_symbol)
+xTab = '\t'
+for i in arr_symbol:
+      num = strT.count(i)
+      if num > 0:
+            print("\'{}\' = {}{}p.c.".format(i, num, xTab if num > 9 else xTab+xTab))
