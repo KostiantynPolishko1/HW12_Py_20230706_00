@@ -40,6 +40,13 @@ def exit_menu():
         break
     return out_submenu
 
+def print_txt(txt_out):
+     txt_print = input("\tprint txt -> ")
+     if not txt_print:
+          step = 100
+          txt_out = ('\n'.join(txt_out[i:i + step] for i in range(0, len(txt_out), step)))
+          print('\n',txt_out, '\n')
+
 def print_menu(ind_pos, arr, name_f="", ind_menu: int=""):
     print("\nMenu:") if name_f == '' else None
     for i in range(len(arr)):
@@ -81,6 +88,7 @@ def find_wordUp(ind, menu, txt_in):
 
     while True:
         print(title)
+        print_txt(txt_in)
         word = input("\tsearch Up word -> ")
         word = word.capitalize()
         ind, pos = 0, 0
@@ -105,6 +113,7 @@ def find_word(ind, menu, txt_in):
 
     while True:
         print(title)
+        print_txt(txt_in)
         word = input(" search word -> ")
 
         word = word.lower()
@@ -155,6 +164,9 @@ def num_symbol(ind, menu, txt_in):
     ind, num = 0, 0
     for i in txt_in:
         if not i.isalnum():
+            if i == '\n':
+                arr_symbol.append("n")
+                continue
             arr_symbol.append(i)
 
     arr_symbol = ''.join(arr_symbol)
